@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 export default function App() {
 	return (
 		<View style={styles.container}>
-			<Text>Datamania</Text>
+			<Text>Datamania !</Text>
 			<StatusBar style="auto" />
 		</View>
 	);
