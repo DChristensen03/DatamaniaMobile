@@ -1,20 +1,26 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import * as eva from "@eva-design/eva";
+import {
+	ApplicationProvider,
+	IconRegistry,
+	Layout,
+} from "@ui-kitten/components";
+import { EvaIconsPack } from "@ui-kitten/eva-icons";
 
-export default function App() {
-	return (
-		<View style={styles.container}>
-			<Text>Datamania!</Text>
-			<StatusBar style="auto" />
-		</View>
-	);
-}
+import { Home } from "./components";
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "#fff",
-		alignItems: "center",
-		justifyContent: "center",
-	},
-});
+import { default as theme } from "./theme.json"; // <-- Import app theme
+import { SafeAreaView } from "react-native";
+
+export default () => (
+	<>
+		<IconRegistry icons={EvaIconsPack} />
+		<ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
+			<SafeAreaView style={{ flex: 1 }}>
+				<Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+					<Home />
+				</Layout>
+			</SafeAreaView>
+		</ApplicationProvider>
+	</>
+);
