@@ -1,23 +1,43 @@
 import React from "react";
-import { Button, Text, Icon } from "@ui-kitten/components";
-import { StyleSheet } from "react-native";
+import { Button, Text, Icon, Layout } from "@ui-kitten/components";
+import { SafeAreaView, StyleSheet } from "react-native";
 
-export default (props) => {
+export default ({ navigation }) => {
+	const navigatePlay = () => {
+		navigation.navigate("Play");
+	};
+
+	const navigateTutorial = () => {
+		navigation.navigate("Tutorial");
+	};
+
 	return (
-		<>
-			<Text style={styles.text} category="h1">
-				DataMania
-			</Text>
-			<Button style={styles.button} accessoryRight={PlayIcon} size="giant">
-				Play
-			</Button>
-			<Button style={styles.button} accessoryRight={BulbIcon} size="giant">
-				Learn
-			</Button>
-			<Button style={styles.button} accessoryRight={SettingsIcon} size="giant">
-				Options
-			</Button>
-		</>
+		<SafeAreaView style={{ flex: 1 }}>
+			<Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+				<Text style={styles.text} category="h1">
+					DataMania
+				</Text>
+				<Button
+					style={styles.button}
+					accessoryRight={PlayIcon}
+					size="giant"
+					onPress={navigatePlay}
+				>
+					Play
+				</Button>
+				<Button
+					style={styles.button}
+					accessoryRight={BulbIcon}
+					size="giant"
+					onPress={navigateTutorial}
+				>
+					Learn
+				</Button>
+				<Button style={styles.button} accessoryRight={SettingsIcon} size="giant">
+					Options
+				</Button>
+			</Layout>
+		</SafeAreaView>
 	);
 };
 
