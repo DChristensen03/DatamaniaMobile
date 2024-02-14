@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Text, Icon, Layout } from "@ui-kitten/components";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 
 export default ({ navigation }) => {
 	const navigatePlay = () => {
@@ -14,28 +14,31 @@ export default ({ navigation }) => {
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-				<Text style={styles.text} category="h1">
-					DataMania
-				</Text>
-				<Button
-					style={styles.button}
-					accessoryRight={PlayIcon}
-					size="giant"
-					onPress={navigatePlay}
+				<View style={{ flex: 2, justifyContent: "flex-end", alignItems: "center" }}>
+					<Text style={styles.text} category="h1">
+						DataMania
+					</Text>
+				</View>
+				<View
+					style={{ flex: 3, justifyContent: "flex-start", alignItems: "center" }}
 				>
-					Play
-				</Button>
-				<Button
-					style={styles.button}
-					accessoryRight={BulbIcon}
-					size="giant"
-					onPress={navigateTutorial}
-				>
-					Learn
-				</Button>
-				<Button style={styles.button} accessoryRight={SettingsIcon} size="giant">
-					Options
-				</Button>
+					<Button
+						style={styles.button}
+						accessoryRight={PlayIcon}
+						size="giant"
+						onPress={navigatePlay}
+					>
+						Play
+					</Button>
+					<Button
+						style={styles.button}
+						accessoryRight={BulbIcon}
+						size="giant"
+						onPress={navigateTutorial}
+					>
+						Learn
+					</Button>
+				</View>
 			</Layout>
 		</SafeAreaView>
 	);
@@ -43,7 +46,6 @@ export default ({ navigation }) => {
 
 const PlayIcon = (props) => <Icon name="play-circle-outline" {...props} />;
 const BulbIcon = (props) => <Icon name="bulb-outline" {...props} />;
-const SettingsIcon = (props) => <Icon name="settings-outline" {...props} />;
 
 const styles = StyleSheet.create({
 	button: {
