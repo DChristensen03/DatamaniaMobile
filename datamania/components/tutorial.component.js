@@ -10,7 +10,7 @@ export default ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
-			<Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+			<Layout style={{ flex: 1, justifyContent: "center", alignItems: "center", flexDirection:'column', gap: -10 }}>
 				<View style={{ position: "absolute", top: 30, left: 5 }}>
 					<Button
 						style={styles.backButton}
@@ -18,13 +18,13 @@ export default ({ navigation }) => {
 						onPress={navigateHome}
 					/>
 				</View>
-				<View style={{ flex: 1, justifyContent: "center", alignItems: "baseline" }}>
+				<View style={{ flex: 1, justifyContent: "center", alignItems: "baseline", marginBottom: -80, marginTop: -50 }}>
 					<Text style={styles.text1} category="h1">
 						How it Works
 					</Text>
 				</View>
 				<View
-					style={{ flex: 2, justifyContent: "flex-end", alignItems: "baseline" }}
+					style={{ flex: 1.5, justifyContent: "flex-end", alignItems: "baseline", flexDirection:'column', marginBottom: -20 }}
 				>
 					<Text style={styles.text} category="h6">
 						* There will be questions
@@ -40,7 +40,7 @@ export default ({ navigation }) => {
 					</Text>
 				</View>
 				<View style={styles.videoContainer}>
-					<View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+					<View style={{ flex: .5, justifyContent: "center", alignItems: "center" }}>
 						<Text style={styles.text} category="h1">
 							How-to Video
 						</Text>
@@ -50,9 +50,9 @@ export default ({ navigation }) => {
 							uri: "https://www.youtube.com/watch?v=CVsbTCdTyAM&ab_channel=TheCrazyLoopGuy",
 						}}
 						style={{
-							flex: 3,
+							flex: 1,
 							maxWidth: "70%",
-							marginStart: 75,
+							marginStart: 80,
 						}}
 					/>
 				</View>
@@ -82,10 +82,14 @@ const styles = StyleSheet.create({
 		paddingBottom: 50,
 	},
 	videoContainer: {
-		width: "80%",
-		aspectRatio: 16 / 9, // You can adjust the aspect ratio as needed
-		marginBottom: 20,
-		flex: 2,
+		justifyContent: "flexStart",
+		width: "134%",
+
+		//height: "2%",
+		//aspectRatio: 16 / 9, // You can adjust the aspect ratio as needed
+		marginBottom: 10,
+		flex: 1.5,
+		flexDirection:'column', gap: -50 
 	},
 	video: {
 		flex: 1,
