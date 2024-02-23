@@ -37,7 +37,6 @@ export default ({ navigation }) => {
 					<Button
 						style={styles.button}
 						accessoryLeft={BackIcon}
-						apperance="ghost"
 						onPress={navigateHome}
 					/>
 				</View>
