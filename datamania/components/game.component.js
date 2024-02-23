@@ -6,6 +6,7 @@ import {
 	Layout,
 	Modal,
 	Text,
+	useTheme,
 	withStyles,
 } from "@ui-kitten/components";
 import { GlobalContext } from "../App";
@@ -14,6 +15,8 @@ import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 
 const GameScreen = (props) => {
+	const theme = useTheme();
+
 	const { eva, style, ...restProps } = props;
 
 	const { game, setGame } = React.useContext(GlobalContext);
@@ -43,7 +46,10 @@ const GameScreen = (props) => {
 	const Footer = (props) => (
 		<View {...props} style={{ padding: 3 }}>
 			{game.teams.map((team) => (
-				<View style={{ flexDirection: "row", alignItems: "center" }}>
+				<View
+					key={team.name}
+					style={{ flexDirection: "row", alignItems: "center" }}
+				>
 					<Text>{team.name}</Text>
 					<View
 						style={{ marginLeft: "auto", flexDirection: "row", paddingVertical: 1 }}
@@ -51,33 +57,50 @@ const GameScreen = (props) => {
 						<Button
 							style={[
 								eva.style.iconButtons,
-								{ borderTopRightRadius: 0, borderBottomRightRadius: 0 },
+								{
+									borderTopRightRadius: 0,
+									borderBottomRightRadius: 0,
+									backgroundColor: theme["color-success-700"],
+								},
 								style,
 							]}
 							accessoryRight={CheckIcon}
-							status="success"
+							onPress={() => {
+								team.score += 100;
+								setModalOpen(false);
+								console.log(team.score);
+							}}
 						></Button>
 						<Button
 							style={[
 								eva.style.iconButtons,
 								{
 									borderRadius: 0,
-									borderTopWidth: 0,
-									borderBottomWidth: 0,
 									borderColor: "black",
+									backgroundColor: theme["color-info-600"],
 								},
 								style,
 							]}
 							accessoryRight={DashIcon}
 							status="info"
+							onPress={() => setModalOpen(false)}
 						></Button>
 						<Button
 							style={[
 								eva.style.iconButtons,
-								{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 },
+								{
+									borderTopLeftRadius: 0,
+									borderBottomLeftRadius: 0,
+									backgroundColor: theme["color-danger-600"],
+								},
 								style,
 							]}
 							status="danger"
+							onPress={() => {
+								team.score -= 100;
+								setModalOpen(false);
+								console.log(team.score);
+							}}
 							accessoryRight={ExitIcon}
 						></Button>
 					</View>
@@ -156,6 +179,22 @@ const GameScreen = (props) => {
 						</View>
 					</>
 				))}
+				<View
+					style={{
+						flex: 1,
+						flexDirection: "row",
+						justifyContent: "space-around",
+						alignItems: "baseline",
+						paddingHorizontal: 2,
+						paddingTop: 3,
+					}}
+				>
+					{game.teams.map((team) => (
+						<Text key={team.name}>
+							{team.name}: {team.score}
+						</Text>
+					))}
+				</View>
 				{/* Render the question modal only if a question has been selected */}
 				{modalOpen ? (
 					<Modal visible={true} style={{ width: "80%", height: "40%" }}>
@@ -206,6 +245,7 @@ export default ThemedGameScreen = withStyles(GameScreen, (theme) => ({
 		flex: 1,
 	},
 	iconButtons: {
-		paddingHorizontal: 0,
+		paddingHorizontal: 3,
+		borderColor: "black",
 	},
 }));
