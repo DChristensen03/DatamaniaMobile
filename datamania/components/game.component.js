@@ -9,9 +9,10 @@ import {
 	useTheme,
 	withStyles,
 } from "@ui-kitten/components";
+import FlipCard from "react-native-flip-card";
 import { GlobalContext } from "../App";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 
 const GameScreen = (props) => {
@@ -25,11 +26,37 @@ const GameScreen = (props) => {
 
 	const [modalOpen, setModalOpen] = useState(false);
 
-	const openQuestionModal = (category, points) => {
+	const [category, setCategory] = useState();
+	const [points, setPoints] = useState();
+
+	useEffect(() => {
+		openQuestionModal();
+	}, [category, points]);
+
+	const openQuestionModal = () => {
+		if (category && points) {
+			const title = Object.keys(category)[0];
+			const chosenCategory = category?.[title];
+			setActiveQuestion(chosenCategory?.[points]);
+			setModalOpen(true);
+		}
+	};
+
+	const completeQuestion = () => {
 		const title = Object.keys(category)[0];
-		category = category?.[title];
-		setActiveQuestion(category?.[points]?.question);
-		setModalOpen(true);
+		let newGame = { ...game };
+		const index = newGame.questions.findIndex((e) => Object.keys(e)[0] === title);
+		newGame.questions[index][title][points].done = true;
+		setGame(newGame);
+
+		setModalOpen(false);
+	};
+
+	const isDone = (cat, point) => {
+		const title = Object.keys(cat)[0];
+		const index = game.questions.findIndex((e) => Object.keys(e)[0] === title);
+
+		return game.questions[index][title][point].done;
 	};
 
 	const Header = (props) => (
@@ -38,7 +65,10 @@ const GameScreen = (props) => {
 				style={[eva.style.closeButton, style]}
 				appearance="ghost"
 				accessoryRight={ExitIcon}
-				onPress={() => setModalOpen(false)}
+				onPress={() => {
+					setModalOpen(false);
+					setCategory(), setPoints();
+				}}
 			></Button>
 		</View>
 	);
@@ -66,9 +96,8 @@ const GameScreen = (props) => {
 							]}
 							accessoryRight={CheckIcon}
 							onPress={() => {
-								team.score += 100;
-								setModalOpen(false);
-								console.log(team.score);
+								team.score += points;
+								completeQuestion();
 							}}
 						></Button>
 						<Button
@@ -83,7 +112,7 @@ const GameScreen = (props) => {
 							]}
 							accessoryRight={DashIcon}
 							status="info"
-							onPress={() => setModalOpen(false)}
+							onPress={() => completeQuestion()}
 						></Button>
 						<Button
 							style={[
@@ -97,9 +126,8 @@ const GameScreen = (props) => {
 							]}
 							status="danger"
 							onPress={() => {
-								team.score -= 100;
-								setModalOpen(false);
-								console.log(team.score);
+								team.score -= points;
+								completeQuestion();
 							}}
 							accessoryRight={ExitIcon}
 						></Button>
@@ -112,10 +140,10 @@ const GameScreen = (props) => {
 	return (
 		<Layout style={{ flex: 1 }}>
 			<SafeAreaView style={{ flex: 1, paddingVertical: 10 }}>
-				{game.questions.map((category) => (
+				{game.questions.map((cat, i) => (
 					<>
 						<View
-							key={category}
+							key={cat}
 							style={{
 								flex: 1,
 								flexDirection: "row",
@@ -133,11 +161,12 @@ const GameScreen = (props) => {
 										marginHorizontal: 0,
 									}}
 								>
-									{Object.keys(category)[0]}
+									{Object.keys(cat)[0]}
 								</Text>
 							</Card>
 						</View>
 						<View
+							key={i}
 							style={{
 								flex: 1,
 								flexDirection: "row",
@@ -148,31 +177,51 @@ const GameScreen = (props) => {
 						>
 							<Button
 								style={[eva.style.pointCard, style]}
-								onPress={() => openQuestionModal(category, 100)}
+								onPress={() => {
+									setCategory(cat);
+									setPoints(100);
+								}}
+								disabled={isDone(cat, 100)}
 							>
 								<Text style={[eva.style.text, style]}>100</Text>
 							</Button>
 							<Button
 								style={[eva.style.pointCard, style]}
-								onPress={() => openQuestionModal(category, 200)}
+								onPress={() => {
+									setCategory(cat);
+									setPoints(200);
+								}}
+								disabled={isDone(cat, 200)}
 							>
 								<Text style={[eva.style.text, style]}>200</Text>
 							</Button>
 							<Button
 								style={[eva.style.pointCard, style]}
-								onPress={() => openQuestionModal(category, 300)}
+								onPress={() => {
+									setCategory(cat);
+									setPoints(300);
+								}}
+								disabled={isDone(cat, 300)}
 							>
 								<Text style={[eva.style.text, style]}>300</Text>
 							</Button>
 							<Button
 								style={[eva.style.pointCard, style]}
-								onPress={() => openQuestionModal(category, 400)}
+								onPress={() => {
+									setCategory(cat);
+									setPoints(400);
+								}}
+								disabled={isDone(cat, 400)}
 							>
 								<Text style={[eva.style.text, style]}>400</Text>
 							</Button>
 							<Button
 								style={[eva.style.pointCard, style]}
-								onPress={() => openQuestionModal(category, 500)}
+								onPress={() => {
+									setCategory(cat);
+									setPoints(500);
+								}}
+								disabled={isDone(cat, 500)}
 							>
 								<Text style={[eva.style.text, style]}>500</Text>
 							</Button>
@@ -197,15 +246,29 @@ const GameScreen = (props) => {
 				</View>
 				{/* Render the question modal only if a question has been selected */}
 				{modalOpen ? (
-					<Modal visible={true} style={{ width: "80%", height: "40%" }}>
+					<Modal visible={true} style={{ width: "80%", height: "50%" }}>
 						<Card
 							disabled={true}
 							header={Header}
 							footer={Footer}
 							style={{ flex: 1, margin: 2 }}
 						>
-							<View style={{ height: "100%" }}>
-								<Text>{activeQuestion}</Text>
+							<View style={{ height: "100%", flexDirection: "column" }}>
+								<View
+									style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+								>
+									<Text>{activeQuestion.question}</Text>
+								</View>
+								<FlipCard>
+									{/* Face Side */}
+									<View style={[eva.style.flip, style]}>
+										<Text>Answer</Text>
+									</View>
+									{/* Back Side */}
+									<View style={[eva.style.flip, style]}>
+										<Text>{activeQuestion.answer}</Text>
+									</View>
+								</FlipCard>
 							</View>
 						</Card>
 					</Modal>
@@ -247,5 +310,17 @@ export default ThemedGameScreen = withStyles(GameScreen, (theme) => ({
 	iconButtons: {
 		paddingHorizontal: 3,
 		borderColor: "black",
+	},
+	flip: {
+		backgroundColor: theme["color-primary-400"],
+		marginTop: 5,
+		paddingHorizontal: 3,
+		textAlign: "center",
+		justifyContent: "center",
+		alignItems: "center",
+		flex: 1,
+		width: "100%",
+		borderWidth: 1,
+		borderRadius: 5,
 	},
 }));
