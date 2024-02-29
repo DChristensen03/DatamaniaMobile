@@ -1,15 +1,34 @@
-import React from "react";
-import { Button, Text, Icon, Layout, Input } from "@ui-kitten/components";
+import React, { useState } from "react";
+import {
+	Button,
+	Text,
+	Icon,
+	Layout,
+	Input,
+	Select,
+	SelectItem,
+} from "@ui-kitten/components";
 import { SafeAreaView, StyleSheet, View } from "react-native";
+import { GlobalContext } from "../App";
+import Game from "../utilities/game/Game";
 
 export default ({ navigation }) => {
+	const { game, setGame } = React.useContext(GlobalContext);
+
 	const navigateHome = () => {
 		navigation.navigate("Home");
 	};
 
-	const [team1, setTeam1] = React.useState("");
-	const [team2, setTeam2] = React.useState("");
-	const [team3, setTeam3] = React.useState("");
+	const navigateGame = () => {
+		navigation.navigate("Game");
+	};
+
+	const [team1, setTeam1] = useState("");
+	const [team2, setTeam2] = useState("");
+	const [team3, setTeam3] = useState("");
+
+	const [index, setIndex] = useState(0);
+	const data = ["Game 1"];
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
@@ -18,7 +37,6 @@ export default ({ navigation }) => {
 					<Button
 						style={styles.button}
 						accessoryLeft={BackIcon}
-						apperance="ghost"
 						onPress={navigateHome}
 					/>
 				</View>
@@ -61,11 +79,29 @@ export default ({ navigation }) => {
 						style={styles.input}
 						onChangeText={(nextValue) => setTeam3(nextValue)}
 					/>
+					<Select
+						style={styles.select}
+						selectedIndex={index}
+						onSelect={setIndex}
+						value={data[index.row]}
+					>
+						{data.map((value) => (
+							<SelectItem title={value} key={value} />
+						))}
+					</Select>
 				</View>
 				<View
 					style={{ flex: 4, justifyContent: "flex-start", alignItems: "center" }}
 				>
-					<Button size="giant">Start Game</Button>
+					<Button
+						size="giant"
+						onPress={() => {
+							setGame(new Game([team1, team2, team3], index));
+							navigateGame();
+						}}
+					>
+						Start Game
+					</Button>
 				</View>
 			</Layout>
 		</SafeAreaView>
@@ -87,5 +123,8 @@ const styles = StyleSheet.create({
 	},
 	input: {
 		marginHorizontal: 20,
+	},
+	select: {
+		minWidth: 200,
 	},
 });
