@@ -13,10 +13,10 @@ export default class Game {
 
 		switch (gameNum) {
 			case 1:
-				this.questions = game_1;
+				this.questions = JSON.parse(JSON.stringify(game_1));
 				break;
 			default:
-				this.questions = game_1;
+				this.questions = JSON.parse(JSON.stringify(game_1));
 		}
 	}
 
