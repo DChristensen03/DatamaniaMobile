@@ -23,6 +23,15 @@ export default ({ navigation }) => {
 		navigation.navigate("Game");
 	};
 
+	const startGame = () => {
+		const teams = [team1, team2];
+		if (team3) {
+			teams.push(team3);
+		}
+		setGame(new Game(teams, index));
+		navigateGame();
+	};
+
 	const [team1, setTeam1] = useState("");
 	const [team2, setTeam2] = useState("");
 	const [team3, setTeam3] = useState("");
@@ -31,9 +40,11 @@ export default ({ navigation }) => {
 	const data = ["Game 1"];
 
 	return (
-		<SafeAreaView style={{ flex: 1 }}>
-			<Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-				<View style={{ position: "absolute", top: 30, left: 5 }}>
+		<Layout style={{ flex: 1 }}>
+			<SafeAreaView
+				style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+			>
+				<View style={{ position: "absolute", top: 60, left: 5 }}>
 					<Button
 						style={styles.button}
 						accessoryLeft={BackIcon}
@@ -95,16 +106,14 @@ export default ({ navigation }) => {
 				>
 					<Button
 						size="giant"
-						onPress={() => {
-							setGame(new Game([team1, team2, team3], index));
-							navigateGame();
-						}}
+						onPress={startGame}
+						disabled={!(team1 && team2 && index)}
 					>
 						Start Game
 					</Button>
 				</View>
-			</Layout>
-		</SafeAreaView>
+			</SafeAreaView>
+		</Layout>
 	);
 };
 

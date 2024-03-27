@@ -33,6 +33,10 @@ const GameScreen = (props) => {
 		openQuestionModal();
 	}, [category, points]);
 
+	const navigateResults = () => {
+		props.navigation.navigate("Results");
+	};
+
 	const openQuestionModal = () => {
 		if (category && points) {
 			const title = Object.keys(category)[0];
@@ -75,9 +79,9 @@ const GameScreen = (props) => {
 
 	const Footer = (props) => (
 		<View {...props} style={{ padding: 3 }}>
-			{game.teams.map((team) => (
+			{game.teams.map((team, i) => (
 				<View
-					key={team.name}
+					key={team.name + i}
 					style={{ flexDirection: "row", alignItems: "center" }}
 				>
 					<Text>{team.name}</Text>
@@ -143,7 +147,7 @@ const GameScreen = (props) => {
 				{game.questions.map((cat, i) => (
 					<>
 						<View
-							key={cat}
+							key={cat + i}
 							style={{
 								flex: 1,
 								flexDirection: "row",
@@ -238,11 +242,23 @@ const GameScreen = (props) => {
 						paddingTop: 3,
 					}}
 				>
-					{game.teams.map((team) => (
-						<Text key={team.name}>
+					{game.teams.map((team, i) => (
+						<Text key={team.name + i}>
 							{team.name}: {team.score}
 						</Text>
 					))}
+				</View>
+				<View
+					style={{
+						flex: 1,
+						flexDirection: "row",
+						justifyContent: "space-around",
+						alignItems: "baseline",
+						paddingHorizontal: 2,
+						paddingTop: 3,
+					}}
+				>
+					<Button onPress={navigateResults}>End Game</Button>
 				</View>
 				{/* Render the question modal only if a question has been selected */}
 				{modalOpen ? (
