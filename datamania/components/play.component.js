@@ -37,7 +37,7 @@ export default ({ navigation }) => {
 	const [team3, setTeam3] = useState("");
 
 	const [index, setIndex] = useState(0);
-	const data = ["Game 1"];
+	const data = ["Game 1", "Game 2", "Game 3", "Game 4", "Game 5"];
 
 	return (
 		<Layout style={{ flex: 1 }}>
