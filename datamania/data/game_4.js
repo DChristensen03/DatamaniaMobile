@@ -25,7 +25,11 @@ export default questions = [
 					"As 1000 is not a power of 2, what number is typically used as the actual number of bytes in a kilobyte (or kibibyte)?",
 				answer: "1024",
 			},
-			{ points: 500, question: "?", answer: "---" },
+			{
+				points: 500,
+				question: "How many bits are in an IPv4 address?",
+				answer: "32",
+			},
 		],
 	},
 	{
@@ -36,12 +40,16 @@ export default questions = [
 				question: "What kind of structure runs a piece of code multiple times?",
 				answer: "Loop",
 			},
-			{ points: 200, question: "?", answer: "Object-Oriented Programming" },
+			{
+				points: 200,
+				question: 'What term means "data about other data"?',
+				answer: "Metadata",
+			},
 			{
 				points: 300,
 				question:
-					'What is the term for objects in a class getting attributes passed down from "parent" classes?',
-				answer: "Inheritance",
+					"What programming paradigm consists of reusable pieces of code (classes) that have methods and attributes?",
+				answer: "Object-Oriented Programming (OOP)",
 			},
 			{
 				points: 400,
@@ -128,16 +136,36 @@ export default questions = [
 	{
 		title: "Miscellaneous",
 		questions: [
-			{ points: 100, question: "?", answer: "" },
+			{
+				points: 100,
+				question:
+					"What breed of apple are many Apple personal computers named after?",
+				answer: "McIntosh (Macintosh)",
+			},
 			{
 				points: 200,
 				question:
 					"Digital images are displayed using usually thousands of what small square unit?",
 				answer: "Pixel",
 			},
-			{ points: 300, question: "?", answer: "---" },
-			{ points: 400, question: "?", answer: "" },
-			{ points: 500, question: "?", answer: "---" },
+			{
+				points: 300,
+				question:
+					'What is the technical name of the proprietary connector often referred to as an "iPhone charger"?',
+				answer: "Lightning",
+			},
+			{
+				points: 400,
+				question:
+					"What four-letter acronym refers to the protocol for automatic assigning of IP addresses?",
+				answer: "DHCP (Dynamic Host Configuration Protocol)",
+			},
+			{
+				points: 500,
+				question:
+					"What kind of common simple first output test program was first programmed in the language BCPL?",
+				answer: "---",
+			},
 		],
 	},
 ];
