@@ -131,7 +131,6 @@ const GameScreen = (props) => {
 							status="danger"
 							onPress={() => {
 								team.score -= points;
-								completeQuestion();
 							}}
 							accessoryRight={ExitIcon}
 						></Button>
