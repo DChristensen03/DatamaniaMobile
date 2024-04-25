@@ -1,28 +1,42 @@
 import React from "react";
-import { Button, Text, Icon, Layout } from "@ui-kitten/components";
+import { Button, Text, Icon, Layout, Modal, Card } from "@ui-kitten/components";
 import { SafeAreaView, StyleSheet, View } from "react-native";
-import Video from "react-native-video";
+import { Video } from "expo-av";
+import video from "../videos/tutorial.mp4";
 
 export default ({ navigation }) => {
 	const navigateHome = () => {
 		navigation.navigate("Home");
 	};
+	let [modalText, setModalText] = React.useState("");
+	let [modalOpen, setModalOpen] = React.useState(false);
+
+	const Header = (props) => (
+		<View {...props} style={{ height: 45 }}>
+			<Button
+				style={styles.backButton}
+				appearance="ghost"
+				accessoryRight={ExitIcon}
+				onPress={() => {
+					setModalOpen(false);
+				}}
+			></Button>
+		</View>
+	);
 
 	return (
-		<SafeAreaView style={{ flex: 1 }}>
-			<Layout
-				style={{
-					flex: 1,
-					justifyContent: "center",
-					alignItems: "center",
-					flexDirection: "column",
-					marginTop: 40,
-					gap: -1,
-				}}
+		<Layout style={{ flex: 1 }}>
+			<SafeAreaView
+				style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
 			>
-				<View style={{ position: "absolute", top: 10, left: 5 }}>
+				<View style={{ position: "absolute", top: 60, left: 5 }}>
 					<Button
-						style={styles.backButton}
+						style={{
+							fontWeight: "bold",
+							margin: 0,
+							width: 15,
+							height: 15,
+						}}
 						accessoryLeft={BackIcon}
 						onPress={navigateHome}
 					/>
@@ -30,160 +44,85 @@ export default ({ navigation }) => {
 				<View
 					style={{
 						flex: 1,
-						justifyContent: "center",
-						alignItems: "baseline",
-						marginBottom: -60,
-						marginTop: -50,
+						justifyContent: "space-around",
+						alignItems: "center",
+						marginTop: 90,
 					}}
 				>
-					<Text style={styles.text1} category="h6">
+					<Button
+						style={styles.button}
+						onPress={() => {
+							setModalText(
+								"There will be three teams with two to three members per team.\nOnce team is formed, enter team name in Play tab."
+							);
+							setModalOpen(true);
+						}}
+					>
 						Making Teams
-					</Text>
-				</View>
-				<View
-					style={{
-						flex: 1.5,
-						justifyContent: "flex-end",
-						alignItems: "baseline",
-						flexDirection: "column",
-						marginTop: -10,
-						marginBottom: -50,
-						gap: -50,
-					}}
-				>
-					<Text style={styles.text} category="h7">
-						There will be three teams with two to three members per team.
-					</Text>
-					<Text style={styles.text} category="h7">
-						Once team is formed, enter team name in Play tab.
-					</Text>
-				</View>
-				<View
-					style={{
-						flex: 1,
-						justifyContent: "center",
-						alignItems: "baseline",
-						marginBottom: 100,
-						marginTop: -70,
-					}}
-				>
-					<Text style={styles.text1} category="h6">
-						Choosing and Answering Questions
-					</Text>
-				</View>
-				<View
-					style={{
-						flex: 1.5,
-						justifyContent: "flex-end",
-						alignItems: "baseline",
-						flexDirection: "column",
-						marginBottom: -20,
-						marginTop: 80,
-						gap: -50,
-					}}
-				>
-					<Text style={styles.text} category="h7">
-						There will be 25 questions across five categories, with point value
-						corresponding with difficulty
-					</Text>
-					<Text style={styles.text} category="h7">
-						The game ends when all questions have been chosen and answered
-					</Text>
-					<Text style={styles.text} category="h7">
-						Teams take turns choosing questions by requesting the category and point
-						values The team that chooses the first is pre-determined randomly
-					</Text>
-					<Text style={styles.text} category="h7">
-						Contestants may not speak at any point unless their team is called on by
-						the game moderator. Afterwards, team will have five seconds to decide
-						their answer, even if the answer is incorrect
-					</Text>
-					<Text style={styles.text} category="h7">
-						The team captain will speak for the team when selecting questions and when
-						answering them.
-					</Text>
-					<Text style={styles.text} category="h7">
-						Team members who talk without being recognized by the moderator will be
-						penalized
-					</Text>
-				</View>
-				<View
-					style={{
-						flex: 1,
-						justifyContent: "center",
-						alignItems: "baseline",
-						marginBottom: -30,
-						marginTop: -100,
-					}}
-				>
-					<Text style={styles.text1} category="h6">
+					</Button>
+
+					<Button
+						style={styles.button}
+						onPress={() => {
+							setModalText(
+								"There will be 25 questions across five categories, with point value corresponding with difficulty\nThe game ends when all questions have been chosen and answered\nTeams take turns choosing questions by requesting the category and point values The team that chooses the first is pre-determined randomly\nContestants may not speak at any point unless their team is called on by the game moderator. Afterwards, team will have five seconds to decide their answer, even if the answer is incorrect\nThe team captain will speak for the team when selecting questions and when answering them.\nTeam members who talk without being recognized by the moderator will be penalized"
+							);
+							setModalOpen(true);
+						}}
+					>
+						Choosing/Answering Questions
+					</Button>
+
+					<Button
+						style={styles.button}
+						onPress={() => {
+							setModalText(
+								"If a team fails to provide any answer, the point value of the question will be removed from that team's total points\nTHERE IS NO PENALTY FOR GIVING A WRONG ANSWER, only for providing no answer at all\nIf an incorrect answer is provided, the opportunity to answer is passed along to the next team."
+							);
+							setModalOpen(true);
+						}}
+					>
 						Scoring
-					</Text>
-				</View>
-				<View
-					style={{
-						flex: 1.5,
-						justifyContent: "flex-end",
-						alignItems: "baseline",
-						flexDirection: "column",
-						marginTop: 35,
-						marginBottom: -50,
-						gap: -50,
-					}}
-				>
-					<Text style={styles.text} category="h7">
-						If a team fails to provide any answer, the point value of the question
-						will be removed from that team's total points
-					</Text>
-					<Text style={styles.text} category="h7">
-						THERE IS NO PENALTY FOR GIVING A WRONG ANSWER, only for providing no
-						answer at all
-					</Text>
-					<Text style={styles.text} category="h7">
-						If an incorrect answer is provided, the opportunity to answer is passed
-						along to the next team.
-					</Text>
+					</Button>
 				</View>
 				<View style={styles.videoContainer}>
 					<View
 						style={{
-							flex: 0.5,
-							justifyContent: "center",
+							flex: 4,
 							alignItems: "center",
 						}}
 					>
 						<Text style={styles.text} category="h5">
 							How-to Video
 						</Text>
+						<Video
+							source={video}
+							style={{ width: 138, height: 300 }}
+							useNativeControls
+						/>
 					</View>
-					<Video
-						source={{
-							uri: "tutorial.mp4",
-						}}
-						ref={(ref) => {
-							this.player = ref;
-						}}
-						onBuffer={this.onBuffer}
-						onError={this.videoError}
-						style={{
-							flex: 1,
-							maxWidth: "70%",
-							marginStart: 80,
-						}}
-					/>
 				</View>
-			</Layout>
-		</SafeAreaView>
+			</SafeAreaView>
+			<Modal
+				visible={modalOpen}
+				style={{ width: "80%", height: "50%", position: "absolute" }}
+			>
+				<Card disabled={true} style={{ flex: 1, margin: 2 }} header={Header}>
+					<Text style={styles.text}>{modalText}</Text>
+				</Card>
+			</Modal>
+		</Layout>
 	);
 };
 
+const ExitIcon = (props) => <Icon name="close-outline" {...props} />;
 const BackIcon = (props) => <Icon name="arrow-back-outline" {...props} />;
 
 const styles = StyleSheet.create({
 	button: {
 		fontWeight: "bold",
-		margin: 10,
-		width: 175,
+		margin: 5,
+		width: 265,
 		height: 50,
 	},
 	text1: {
