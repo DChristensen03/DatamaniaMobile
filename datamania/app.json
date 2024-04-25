@@ -25,6 +25,18 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0bf3f91d-3f27-4a92-83c5-79295a13d0d1"
+      }
+    },
+    "owner": "dychri03",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/0bf3f91d-3f27-4a92-83c5-79295a13d0d1"
     }
   }
 }
